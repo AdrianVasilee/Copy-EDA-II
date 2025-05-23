@@ -16,7 +16,7 @@ d:
 
 v: 
 	make compiledebug
-	valgrind --leak-check=yes --track-origins=yes ./main.out
+	valgrind --leak-check=yes --track-origins=yes -s ./main.out
 
 compiletest:
 	gcc -Wall -Wextra -Werror test/test.c test/utils.c $(SRC_FILES) -o test.out

@@ -22,24 +22,12 @@ int main() {
   LinkedList *files = get_files(WIKIPEDIA540);
   show_list(*files);
 
-  /*
-  int test_id = 1;
-  char *filepath = (char*)get_item(*files, test_id);
+  LinkedList document_title;
+  initialize_list(&document_title, STRING);
 
-  Document d;
-  d.DocumentId = test_id;
+  Document *d = linear_search_title(*files, "Aging in cats");
 
-  get_document(&d, filepath);
-  */
-
-  printf("Pick a document [0-%d]: ", get_length(*files));
-  int choice;
-  scanf("%d", &choice);
-
-  Document *document = get_item(*files, choice);
-  printf("Document ID: %d\n", document->DocumentId);
-  printf("Title: %s\n", document->title);
-  printf("Body:\n %s\n", document->body);
+  print_document(d);
 
   free(files);
   return 0;

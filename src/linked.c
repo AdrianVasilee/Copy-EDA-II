@@ -3,7 +3,7 @@
 
 char *copy_str(char *old_str) {
   int length = (int)strlen(old_str) + 1;
-  char *new_str = malloc(length * sizeof(char));
+  char *new_str = malloc(length);
   memset(new_str, 0, length);
 
   for (int i = 0; i < length - 1; i++) {
@@ -176,6 +176,12 @@ void delete(LinkedList *l, int item_index) {
     if (node == l->head) {
       l->head = next;
     }
+  }
+
+  if (l->type_of_variable == DOCUMENT_STR) {
+    free(((Document *)node->value)->filepath);
+    free(((Document *)node->value)->body);
+    free(((Document *)node->value)->title);
   }
 
   free(node);

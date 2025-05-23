@@ -1,6 +1,7 @@
 #include "document.h"
+#define NUM_DATASETS 4
 
-DatasetInfo database[4];
+DatasetInfo database[NUM_DATASETS];
 
 void start_database() {
   add_dataset(WIKIPEDIA12, "datasets/wikipedia12", 12);
@@ -101,4 +102,10 @@ void print_document(Document *d) {
   printf("Document ID: %d\n", d->DocumentId);
   printf("Document Title: %s\n", d->title);
   printf("Document Body: \n%s\n", d->body);
+}
+
+void free_database() {
+  for (int i = 0; i < NUM_DATASETS; i++) {
+    free(database[i].path);
+  }
 }

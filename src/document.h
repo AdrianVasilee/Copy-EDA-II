@@ -30,5 +30,6 @@ LinkedList *get_files(Dataset ds);
 
 void read_document(Document *d, char *filepath, int ID);
 void print_document(Document *d);
+void free_database();
 
 #endif

@@ -184,5 +184,14 @@ void delete(LinkedList *l, int item_index) {
     free(((Document *)node->value)->title);
   }
 
+  free(node->value);
   free(node);
+}
+
+void free_list(LinkedList *l) {
+  while (!l->is_empty) {
+    delete (l, 0);
+  }
+
+  free(l);
 }

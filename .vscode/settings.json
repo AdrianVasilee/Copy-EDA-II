@@ -8,6 +8,7 @@
         "unordered_map": "c",
         "vector": "c",
         "stdbool.h": "c",
-        "search.h": "c"
+        "search.h": "c",
+        "hashmap.h": "c"
     },
 }

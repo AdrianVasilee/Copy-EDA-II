@@ -93,7 +93,7 @@ char *get_word(char *string) {
     string = last_pointer;
   }
 
-  if (string[0] == ' ') {
+  if (string[0] == ' ' || string[0] == '\n') {
     string++;
   } else if (string[0] == '\0') {
     return NULL;
@@ -127,9 +127,6 @@ char *get_word(char *string) {
   new_string[j] = '\0';
 
   last_pointer = string + i;
-  if (strlen(new_string) == 0) {
-    last_pointer++;
-  }
   return new_string;
 }
 

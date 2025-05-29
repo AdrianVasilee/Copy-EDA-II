@@ -7,7 +7,7 @@
 #define Query LinkedList
 #define Stack LinkedList
 
-typedef enum { INTEGER, STRING, DOCUMENT_STR } DataType;
+typedef enum { INTEGER, STRING, DOCUMENT_STR, DOCUMENT_LINK } DataType;
 
 typedef struct _Node {
   void *value;

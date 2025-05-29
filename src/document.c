@@ -47,6 +47,67 @@ LinkedList *get_files(Dataset ds) {
   return documents;
 }
 
+
+void get_links(Document *d) {
+  int id = 0;
+  int title_leangth = 100;
+  char *title = malloc(title_leangth);
+  for (int i = 0; i < (int)strlen(d->body); i++) {
+    id = 0;
+
+    if (d->body[i] == '[') {
+      i++;
+
+      int title_index = 0;
+      while (d->body[i + 1] != '[' && d->body[i + 1] != ']' && i < (int)strlen(d->body)) {
+        title[title_index] = d->body[i];
+
+        i++;title_index++;
+
+        if (title_leangth <= title_index + 1) {
+          
+          title_leangth += 100;
+          title = realloc(title, title_leangth);
+        }
+      }
+
+
+      title[title_index] = d->body[i];
+      title[title_index + 1] = '\0';
+
+      if (d->body[i + 1] != ']' || i+1 >= (int)strlen(d->body)){
+        continue;
+      }
+
+      if (d->body[i+2] != '(') {
+        continue;
+      }
+
+      i += 3;
+
+      while (d->body[i] >= '0' && d->body[i] >=0 && i < (int)strlen(d->body)) {
+        id = id * 10 + (d->body[i] - '0');
+        i++;
+      }  
+
+      if (d->body[i] != ')') 
+        continue;
+
+      DocumentLink *l = malloc(sizeof(DocumentLink));
+      l->title = copy_str(title);
+      l->documentID = id;
+
+      if (!in_list(*d->links, l)) {
+        append(d->links, l);
+        printf("Found link with id %d, and title %s\n", id, title);
+      }
+      free(l);
+    }
+  }
+
+  free(title);
+}
+
 void read_document(Document *d, char *filepath, int ID) {
   printf("Reading document with ID %d\n", ID);
   d->filepath = copy_str(filepath);
@@ -91,6 +152,11 @@ void read_document(Document *d, char *filepath, int ID) {
 
   d->title = copy_str(pointers[1]);
   d->body = copy_str(pointers[2]);
+
+  d->links = malloc(sizeof(LinkedList));
+  initialize_list(d->links, DOCUMENT_LINK);
+
+  get_links(d);
 
   fclose(f);
 

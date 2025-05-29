@@ -57,6 +57,13 @@ Node *create_node(void *value, DataType dt) {
     n->value = p_document;
     break;
 
+  case DOCUMENT_LINK:
+    DocumentLink *l = malloc(sizeof(DocumentLink));
+    *l = *(DocumentLink *) value;
+
+    n->value = l;
+    break;
+
   default:
     printf("The datatype introduced is not available\n");
     exit(1);
@@ -114,7 +121,13 @@ void show_list(LinkedList l) {
     case DOCUMENT_STR:
       printf("Found document with filepath %s\n",
              ((Document *)node->value)->filepath);
+      printf("Links: ");
+      show_list(*((Document *)node->value)->links);
+      printf("\n");
       break;
+    case DOCUMENT_LINK:
+        printf("%d ", ((DocumentLink*)node->value)->documentID);
+        break;
     default:
       printf("Error: Data type not found!!\n");
       exit(1);
@@ -182,7 +195,11 @@ void delete(LinkedList *l, int item_index) {
     free(((Document *)node->value)->filepath);
     free(((Document *)node->value)->body);
     free(((Document *)node->value)->title);
-  }
+    free_list(((Document *)node->value)->links);
+    free(((Document *)node->value)->links);
+  } else if (l->type_of_variable == DOCUMENT_LINK) {
+    free(((DocumentLink *)node->value)->title);
+  } 
 
   free(node->value);
   free(node);
@@ -204,6 +221,11 @@ bool in_list(LinkedList l, void *value) {
       Document *d = (Document *)n->value, *value_d = (Document *)value;
       if (d->DocumentId == value_d->DocumentId &&
           strcmp(d->filepath, value_d->filepath) == 0) {
+        return true;
+      }
+    } else if (l.type_of_variable == DOCUMENT_LINK) {
+      DocumentLink *l = (DocumentLink *) n->value, *l_value = (DocumentLink *)value;
+      if (l->documentID == l_value->documentID) {
         return true;
       }
     } else {

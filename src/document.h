@@ -4,11 +4,17 @@
 #include "common.h"
 #include "linked.h"
 
+typedef struct DocumentLink {
+  int documentID;
+  char *title;
+} DocumentLink;
+
 typedef struct Document {
   char *filepath;
   char *title;
   int DocumentId;
   char *body;
+  LinkedList *links;
 } Document;
 
 typedef enum {
@@ -31,5 +37,6 @@ LinkedList *get_files(Dataset ds);
 void read_document(Document *d, char *filepath, int ID);
 void print_document(Document *d);
 void free_database();
+void get_links(Document *d);
 
 #endif

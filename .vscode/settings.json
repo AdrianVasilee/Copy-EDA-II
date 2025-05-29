@@ -9,6 +9,7 @@
         "vector": "c",
         "stdbool.h": "c",
         "search.h": "c",
-        "hashmap.h": "c"
+        "hashmap.h": "c",
+        "graph.h": "c"
     },
 }

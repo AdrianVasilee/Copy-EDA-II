@@ -3,6 +3,8 @@
 
 DatasetInfo database[NUM_DATASETS];
 
+DatasetInfo *ds_chosen = NULL;
+
 void start_database() {
   add_dataset(WIKIPEDIA12, "datasets/wikipedia12", 12);
   add_dataset(WIKIPEDIA270, "datasets/wikipedia270", 270);
@@ -19,7 +21,7 @@ void add_dataset(Dataset ds, char *path, int nr_documents) {
 
 LinkedList *get_files(Dataset ds) {
   printf("Initializing list with dataset %s\n", database[ds].path);
-  DatasetInfo *ds_chosen = &database[ds];
+  ds_chosen = &database[ds];
   DIR *dr = opendir(ds_chosen->path);
 
   if (dr == NULL) {
@@ -109,7 +111,7 @@ void get_links(Document *d) {
 }
 
 void read_document(Document *d, char *filepath, int ID) {
-  printf("Reading document with ID %d\n", ID);
+  printf("\nReading document with ID %d\n", ID);
   d->filepath = copy_str(filepath);
   d->DocumentId = ID;
 

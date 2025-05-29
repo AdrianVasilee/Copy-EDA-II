@@ -3,6 +3,7 @@
 #include "hashmap.h"
 #include "linked.h"
 #include "sample_lib.h"
+#include "graph.h"
 #include "search.h"
 
 void createaleak() {
@@ -22,16 +23,17 @@ int main() {
   start_database();
 
   LinkedList *files = get_files(WIKIPEDIA12);
-  show_list(*files);
+  LinkNode *graph =  create_score_graph(files);
 
   LinkedList document_title;
   initialize_list(&document_title, STRING);
 
-  // HashMap *h = create_hashmap_dataset(*files);
+  HashMap *h = create_hashmap_dataset(*files);
 
   free_list(files);
   free(files);
-  // free_hashmap(h);
+  free_hashmap(h);
+  free_graph(graph);
   free_database();
 
   return 0;

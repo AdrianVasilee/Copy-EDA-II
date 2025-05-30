@@ -49,9 +49,7 @@ void find_documents(HashMap *index, LinkedList words, LinkedList *documents) {
         Node *n = pair.documents.head;
         while (n != NULL) {
           int *docID = (int *)n->value;
-          if (!in_list(*documents, docID)) {
-            append(documents, docID);
-          }
+          append(documents, docID);
           n = n->next;
         }
         break;
@@ -62,15 +60,26 @@ void find_documents(HashMap *index, LinkedList words, LinkedList *documents) {
   }
 }
 
-void score_documents(LinkNode *graph, LinkedList documents,
+void score_documents(LinkNode *graph, LinkedList documents, LinkedList documentSet,
                      RankedResult results[], int *count) {
-  Node *n = documents.head;
+  Node *n = documentSet.head;
   int i = 0;
 
   while (n != NULL) {
     int docID = *((int *)n->value);
     results[i].docID = docID;
-    results[i].score = graph[docID].relevance_score;
+    results[i].relevanceScore = graph[docID].relevance_score;
+    results[i].queryScore = 0;
+
+    
+    Node *n_documents = documents.head;
+    while (n_documents) {
+        if (*(int *)n_documents->value == *(int *)n->value){
+            results[i].queryScore++;
+        }
+        n_documents = n_documents->next;
+    }
+
     i++;
     n = n->next;
   }
@@ -81,7 +90,14 @@ void score_documents(LinkNode *graph, LinkedList documents,
 void sort_results(RankedResult results[], int count) {
   for (int i = 0; i < count - 1; i++) {
     for (int j = i + 1; j < count; j++) {
-      if (results[j].score > results[i].score) {
+      bool change = false;
+      if (results[j].queryScore > results[i].queryScore) {
+        change = true;
+      } else if (results[j].queryScore == results[i].queryScore && results[j].relevanceScore > results[i].relevanceScore) {
+        change = true;
+      }
+
+      if (change) {
         RankedResult tmp = results[i];
         results[i] = results[j];
         results[j] = tmp;
@@ -91,15 +107,24 @@ void sort_results(RankedResult results[], int count) {
 }
 
 void ranked_query(HashMap *index, LinkNode *graph, const char *input) {
-  LinkedList words, documents;
+  LinkedList words, documents, documentSet;
+  
   initialize_list(&words, STRING);
+  initialize_list(&documentSet, INTEGER);
   initialize_list(&documents, INTEGER);
 
   separate_words(input, &words);
   show_list(words);
   find_documents(index, words, &documents);
 
-  int len = get_length(documents);
+    Node *n = documents.head;
+  while (n) {
+    if (!in_list(documentSet, n->value))
+        append(&documentSet, n->value);
+    n = n->next;
+  }
+
+  int len = get_length(documentSet);
 
   if (len == 0) {
     printf("No matching documents found.\n");
@@ -107,16 +132,18 @@ void ranked_query(HashMap *index, LinkNode *graph, const char *input) {
   }
 
   RankedResult results[len];
+  memset(results, 0, len * sizeof(RankedResult));
   int count = 0;
-  score_documents(graph, documents, results, &count);
+  score_documents(graph, documents, documentSet, results, &count);
   sort_results(results, count);
 
   printf("Top relevant documents:\n");
   for (int i = 0; i < count && i < 5; i++) {
-    printf("Document ID: %d (Relevance Score: %d)\n", results[i].docID,
-           results[i].score);
+    printf("Document ID: %d (Relevance Score: %d; Query score: %d)\n", results[i].docID,
+           results[i].relevanceScore, results[i].queryScore);
   }
 
   free_list(&words);
   free_list(&documents);
+  free_list(&documentSet);
 }

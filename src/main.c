@@ -31,7 +31,7 @@ int main() {
 
   HashMap *h = create_hashmap_dataset(*files);
 
-  char *input = "Hello world";
+  char *input = "Hello world this is a test";
   ranked_query(h, graph, input);
 
   free_list(files);

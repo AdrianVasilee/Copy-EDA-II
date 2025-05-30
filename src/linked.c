@@ -199,8 +199,7 @@ void delete(LinkedList *l, int item_index) {
     free(((Document *)node->value)->links);
   } else if (l->type_of_variable == DOCUMENT_LINK) {
     free(((DocumentLink *)node->value)->title);
-  } 
-
+  }
   free(node->value);
   free(node);
 }

@@ -3,6 +3,7 @@
 #include "hashmap.h"
 #include "linked.h"
 #include "sample_lib.h"
+#include "query.h"
 #include "graph.h"
 #include "search.h"
 
@@ -29,6 +30,9 @@ int main() {
   initialize_list(&document_title, STRING);
 
   HashMap *h = create_hashmap_dataset(*files);
+
+  char *input = "Hello world";
+  ranked_query(h, graph, input);
 
   free_list(files);
   free(files);

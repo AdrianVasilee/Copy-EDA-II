@@ -32,7 +32,6 @@ LinkNode *create_score_graph(LinkedList *d) {
     }
 
     bool show_items = true;
-    show_graph(graph, show_items);
 
     // sort by relevance score
     for (int i = 1; i < ds_chosen->nr_documents + 1; i++) {

@@ -59,7 +59,7 @@ Node *create_node(void *value, DataType dt) {
 
   case DOCUMENT_LINK:
     DocumentLink *l = malloc(sizeof(DocumentLink));
-    *l = *(DocumentLink *) value;
+    *l = *(DocumentLink *)value;
 
     n->value = l;
     break;
@@ -126,8 +126,8 @@ void show_list(LinkedList l) {
       printf("\n");
       break;
     case DOCUMENT_LINK:
-        printf("%d ", ((DocumentLink*)node->value)->documentID);
-        break;
+      printf("%d ", ((DocumentLink *)node->value)->documentID);
+      break;
     default:
       printf("Error: Data type not found!!\n");
       exit(1);
@@ -223,7 +223,8 @@ bool in_list(LinkedList l, void *value) {
         return true;
       }
     } else if (l.type_of_variable == DOCUMENT_LINK) {
-      DocumentLink *l = (DocumentLink *) n->value, *l_value = (DocumentLink *)value;
+      DocumentLink *l = (DocumentLink *)n->value,
+                   *l_value = (DocumentLink *)value;
       if (l->documentID == l_value->documentID) {
         return true;
       }

@@ -1,15 +1,8 @@
+# Personal browser
+
+This project is a copy of a project done by two collegues of mine and myself. It's an extensive project which showcases the application of multiple algorithms.
+
 ![Unit Tests](https://github.com/miquelvir/edaii-2025/actions/workflows/unit-tests.yml/badge.svg)
-
-> [!NOTE]  
-> Remember to change the link above to match your GitHub username and repository name. Then, remove this comment.
-
-# Authors
-
-Group number: (todo, add the group number here)
-
-- (todo, add the email of the first group member)
-- (todo, add the email of the second group member)
-- (todo, add the email of the third group member)
 
 # Plagiarism Disclaimer
 - You **MUST NOT** look at anyone else's solutions, including previous year students and external tutors.

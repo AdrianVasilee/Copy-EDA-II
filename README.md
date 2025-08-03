@@ -1,8 +1,8 @@
+![Unit Tests](https://github.com/miquelvir/edaii-2025/actions/workflows/unit-tests.yml/badge.svg)
+
 # Personal browser
 
 This project is a copy of a project done by two collegues of mine and myself. It's an extensive project which showcases the application of multiple algorithms.
-
-![Unit Tests](https://github.com/miquelvir/edaii-2025/actions/workflows/unit-tests.yml/badge.svg)
 
 # Plagiarism Disclaimer
 - You **MUST NOT** look at anyone else's solutions, including previous year students and external tutors.
